@@ -13,13 +13,13 @@
         Date <br>
         Completed (Date) <br> -->
 
-        <form v-on:submit.prevent="" class="space-y-2">
-            <input type="text" class="w-full p-2 border-2 border-gray-400" placeholder="Task title...">
-            <input type="text" class="w-full p-2 border-2 border-gray-400" placeholder="Task description...">
-            <input type="text" class="w-full p-2 border-2 border-gray-400" placeholder="Task due date...">
-            <!-- <a-space direction="vertical" :size="12">
-                <a-date-picker v-model:value="value1" />
-            </a-space> -->
+        <form v-on:submit.prevent="addNewTask()" class="space-y-2">
+            <input type="text" class="w-full p-2 border-2 border-gray-400" placeholder="Task title..."
+                v-model="newTask.title">
+            <input type="text" class="w-full p-2 border-2 border-gray-400" placeholder="Task description..."
+                v-model="newTask.description">
+            <input type="text" class="w-full p-2 border-2 border-gray-400" placeholder="Task due date..."
+                v-model="newTask.due_date">
 
             <button class="w-full p-2 border-2 border-gray-400">Add task</button>
 
@@ -28,20 +28,37 @@
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Completed</th>
-                        <th>Created At</th>
-                        <th>Deadline</th>
+                        <th class="p-4">Done</th>
+                        <th class="p-4">ID</th>
+                        <th class="p-4">Title</th>
+                        <th class="p-4">Completed</th>
+                        <th class="p-4">Created At</th>
+                        <th class="p-4">Deadline</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="task in tasks" :key="task.id">
-                        <td>{{ task.id }}</td>
-                        <td>{{ task.title }}</td>
-                        <td>{{ task.completed }}</td>
-                        <td>{{ task.created_at }}</td>
-                        <td>{{ task.deadline }}</td>
+                        <td class="p-4">
+                            <input type="checkbox" v-model="task.completed">
+                        </td>
+                        <td class="p-4">{{ task.id }}</td>
+                        <td class="p-4">{{ task.title }}</td>
+                        <td class="p-4">{{ task.completed }}</td>
+                        <td class="p-4">{{ task.created_at }}</td>
+                        <td class="p-4">{{ task.deadline }}</td>
+
+                        <td class="p-4">
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                @click="completeTask(task)">
+                                Edit
+                            </button>
+                        </td>
+                        <td class="p-4">
+                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                @click="deleteTask">
+                                Delete
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -57,6 +74,34 @@ export default {
             return this.$store.state.toDoList;
         }
     },
+    data: () => ({
+        newTask: {
+            title: '',
+            description: '',
+            due_date: '',
+            created_at: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+            deadline: '',
+            completed: false
+        }
+    }),
+    methods: {
+        addNewTask() {
+            console.log(this.newTask);
+            // dispatch the action to add the new task
+            this.$store.dispatch('addNewTask', this.newTask);
+            this.newTask = {
+                title: '',
+                description: '',
+                due_date: '',
+                created_at: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+                deadline: '',
+                completed: false
+            }
+        },
+        deleteTask() {
+            this.$store.dispatch('deleteTask', this.task);
+        },
+    }
 
 }
 </script>
