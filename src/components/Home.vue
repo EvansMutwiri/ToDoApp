@@ -37,9 +37,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="task in tasks" :key="task.id">
+                    <tr v-for="task in tasks" :key="task.id" :class="{completed: task.completed === true}">
                         <td class="p-4">
-                            <input type="checkbox" v-model="task.completed">
+                            <button class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
+                                @click="completeTask(task)">
+                                Done
+                            </button>
                         </td>
                         <td class="p-4">{{ task.id }}</td>
                         <td class="p-4">{{ task.title }}</td>
@@ -55,7 +58,7 @@
                         </td>
                         <td class="p-4">
                             <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                @click="deleteTask">
+                                @click="deleteTask(task)">
                                 Delete
                             </button>
                         </td>
@@ -67,7 +70,6 @@
 </template>
 
 <script>
-import { Dayjs } from 'dayjs';
 export default {
     computed: {
         tasks() {
@@ -98,13 +100,22 @@ export default {
                 completed: false
             }
         },
-        deleteTask() {
-            this.$store.dispatch('deleteTask', this.task);
+        deleteTask(task) {
+            this.$store.dispatch('deleteTask', task);
+            console.log('delete', task.id);
         },
+        completeTask(task) {
+            this.$store.dispatch('completeTask', task);
+            // console.log('complete', task.id);
+        }
     }
 
 }
 </script>
 
-<style>
+<style scoped>
+.completed {
+    background-color: rgb(208, 208, 208);
+    text-decoration: line-through;
+}
 </style>

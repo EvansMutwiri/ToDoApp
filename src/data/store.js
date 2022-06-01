@@ -5,21 +5,7 @@ export default createStore({
   state: {
     // data
     title: "to do ",
-    toDoList: [
-      {
-        id: 1,
-        title: "Learn Vue",
-        completed: false,
-        deadline: "2020-01-01",
-        created_at:
-          new Date().getDate() +
-          "-" +
-          new Date().getMonth() +
-          "-" +
-          new Date().getFullYear(),
-        date_complete: "date complete",
-      },
-    ],
+    toDoList: [],
     toDoListComplete: [],
     toDoListUncomplete: [],
   },
@@ -31,6 +17,9 @@ export default createStore({
         ADD_NEW(state, todo) {
             state.toDoList.length >= 1 ? todo.id = state.toDoList[state.toDoList.length - 1].id + 1 : todo.id = 1;
             state.toDoList.push({...state.toDoList, ...todo});
+            // state.toDoListUncomplete.push({...state.toDoList, ...todo});
+
+            todo.completed ? state.toDoListComplete.push({...state.toDoList, ...todo}) : state.toDoListUncomplete.push({...state.toDoList, ...todo});
         },
         DELETE_TASK(state, id) {
             let tasks = state.toDoList;
@@ -38,6 +27,13 @@ export default createStore({
             
             tasks.splice(index, 1);
             state.toDoList = tasks;
+        },
+        COMPLETE_TASK(state, todo) {
+            
+            todo.completed = !todo.completed;
+            todo.date_complete = new Date().getDate() + "-" + new Date().getMonth() + "-" + new Date().getFullYear();
+            state.toDoListComplete.push(todo);
+            todo.completed ? state.toDoListUncomplete.splice(state.toDoListUncomplete.indexOf(todo), 1) : state.toDoListUncomplete.push(todo);
 
         }
     },
@@ -47,6 +43,9 @@ export default createStore({
         },
         deleteTask({commit}, id) {
             commit("DELETE_TASK", id);
+        },
+        completeTask({commit}, id) {
+            commit("COMPLETE_TASK", id);
         }
     },
 });
