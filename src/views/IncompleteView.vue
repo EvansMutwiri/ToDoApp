@@ -15,8 +15,9 @@
 </style>
 
 <script>
-import UnDone from '../components/UnDone.vue';
+import UnDone from '../components/Incomplete.vue';
 export default {
+  props: ['todoUndone'],
     setup() {
     },
     components: { UnDone }

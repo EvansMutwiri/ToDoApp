@@ -70,11 +70,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
     computed: {
-        tasks() {
-            return this.$store.state.toDoList;
-        }
+        // tasks() {
+        //     return this.$store.state.toDoList;
+        // }
+        ...mapState({
+            tasks: 'toDoList'
+        })
     },
     data: () => ({
         newTask: {

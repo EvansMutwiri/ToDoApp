@@ -14,8 +14,9 @@
 }
 </style>
 <script>
-import Done from '../components/Done.vue'
+import Done from '../components/Complete.vue'
 export default {
+  props: ['todoDone'],
     setup() {
     },
     components: { Done }
