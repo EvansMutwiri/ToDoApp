@@ -34,7 +34,9 @@ export default createStore({
             todo.date_complete = new Date().getDate() + "-" + new Date().getMonth() + "-" + new Date().getFullYear();
             state.toDoListComplete.push(todo);
             todo.completed ? state.toDoListUncomplete.splice(state.toDoListUncomplete.indexOf(todo), 1) : state.toDoListUncomplete.push(todo);
-
+        },
+        SET_POSTS(state, data) {
+            state.toDoList = data;
         }
     },
     actions: {
@@ -46,6 +48,16 @@ export default createStore({
         },
         completeTask({commit}, id) {
             commit("COMPLETE_TASK", id);
+        },
+        initPosts({commit}) {
+            axios.get("https://tychak.github.io/").then((response) => {
+                // console.log('response', response.data);
+                let data = response.data;
+                data.forEach((item) => {
+                    item.id = parseInt(item.id);
+                });
+                commit("SET_POSTS", data);
+            });
         }
     },
 });

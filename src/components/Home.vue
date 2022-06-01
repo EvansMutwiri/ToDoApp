@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import { onMounted } from '@vue/runtime-core';
 import { mapState } from 'vuex';
 export default {
     computed: {
@@ -111,9 +112,14 @@ export default {
         completeTask(task) {
             this.$store.dispatch('completeTask', task);
             // console.log('complete', task.id);
+        },
+        getPosts() {
+            this.$store.dispatch('initPosts');
         }
+    },
+    created() {
+        this.getPosts();
     }
-
 }
 </script>
 
