@@ -18,36 +18,38 @@
                 v-model="newTask.title">
             <input type="text" class="w-full p-2 border-2 border-gray-400" placeholder="Task description..."
                 v-model="newTask.description">
-            <input type="text" class="w-full p-2 border-2 border-gray-400" placeholder="Task due date..."
-                v-model="newTask.due_date">
+            <input type="date" class="w-full p-2 border-2 border-gray-400" placeholder="Task deadline..."
+                v-model="newTask.deadline">
 
             <button class="w-full p-2 border-2 border-gray-400">Add task</button>
 
         </form>
         <div>
-            <table>
+            <table v-if="tasks.length">
                 <thead>
                     <tr>
                         <th class="p-4">Done</th>
                         <th class="p-4">ID</th>
                         <th class="p-4">Title</th>
-                        <th class="p-4">Completed</th>
                         <th class="p-4">Created At</th>
+                        <th class="p-4">Completed</th>
                         <th class="p-4">Deadline</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="task in tasks" :key="task.id" :class="{completed: task.completed === true}">
-                        <td class="p-4">
-                            <button class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
+                    <tr v-for="task in tasks" :key="task.id" v-bind:class="{completed: task.completed}">
+                        <td class="p-4 cursor-pointer">
+                            <!-- <button class="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
                                 @click="completeTask(task)">
                                 Done
-                            </button>
+                            </button> -->
+                            <input class="cursor-pointer bg-red-100 border-red-300 text-red-500 focus:ring-red-200" type="checkbox" v-model="task.completed" @click="completeTask(task)">
                         </td>
                         <td class="p-4">{{ task.id }}</td>
                         <td class="p-4">{{ task.title }}</td>
-                        <td class="p-4">{{ task.completed }}</td>
-                        <td class="p-4">{{ task.created_at }}</td>
+                        <td class="p-4">{{ task.date_added }}</td>
+                        <td class="p-4">{{ task.completed === true ? new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() : 'ongoing' }}</td>
+                        
                         <td class="p-4">{{ task.deadline }}</td>
 
                         <td class="p-4">
@@ -58,7 +60,7 @@
                         </td>
                         <td class="p-4">
                             <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                @click="deleteTask(task)">
+                                @click="deleteTask(task.id)">
                                 Delete
                             </button>
                         </td>
@@ -86,28 +88,30 @@ export default {
             title: '',
             description: '',
             due_date: '',
-            created_at: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+            date_added: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
             deadline: '',
-            completed: false
+            completed: false,
+            completed_date: 'ongoing'
         }
     }),
     methods: {
         addNewTask() {
-            console.log(this.newTask);
+            // console.log(this.newTask);
             // dispatch the action to add the new task
             this.$store.dispatch('addNewTask', this.newTask);
             this.newTask = {
                 title: '',
                 description: '',
                 due_date: '',
-                created_at: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+                date_added: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
                 deadline: '',
-                completed: false
+                completed: false,
+                completed_date: 'ongoing'
             }
         },
         deleteTask(task) {
             this.$store.dispatch('deleteTask', task);
-            console.log('delete', task.id);
+            // console.log('delete', task.id);
         },
         completeTask(task) {
             this.$store.dispatch('completeTask', task);
@@ -125,7 +129,8 @@ export default {
 
 <style scoped>
 .completed {
-    background-color: rgb(208, 208, 208);
-    text-decoration: line-through;
+    background-color: #ffffff;
+    /* text-decoration: line-through; */
+    color: #d0d0d0;
 }
 </style>

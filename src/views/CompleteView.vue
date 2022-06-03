@@ -1,6 +1,6 @@
 <template>
   <div class="complete">
-    <Done />
+    <Complete />
   </div>
 </template>
 
@@ -14,11 +14,11 @@
 }
 </style>
 <script>
-import Done from '../components/Complete.vue'
+import Complete from '../components/Complete.vue'
 export default {
   props: ['todoDone'],
     setup() {
     },
-    components: { Done }
+    components: { Complete }
 }
 </script>

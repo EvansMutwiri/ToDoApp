@@ -18,7 +18,7 @@ export default {
         //     return this.$store.state.toDoListUncomplete
         // }
         ...mapState({
-            tasks: 'toDoList'
+            tasks: 'toDoListUncomplete'
         })
     }
 

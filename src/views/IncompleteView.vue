@@ -1,6 +1,6 @@
 <template>
   <div class="incomplete">
-    <UnDone />
+    <Incomplete />
   </div>
 </template>
 
@@ -15,11 +15,11 @@
 </style>
 
 <script>
-import UnDone from '../components/Incomplete.vue';
+import Incomplete from '../components/Incomplete.vue';
 export default {
   props: ['todoUndone'],
     setup() {
     },
-    components: { UnDone }
+    components: { Incomplete }
 }
 </script>

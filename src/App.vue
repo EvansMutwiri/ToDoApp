@@ -4,7 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
 <div class="container mx-auto px-10">
-  <h1 class="text-3xl font-bold m-0 underline pt-10 px-auto text-center">{{ $store.state.title }} App</h1>
+  <h1 class="text-3xl font-bold m-0 underline pt-10 px-auto text-center">{{ $store.state.title }}</h1>
   <div class="app flex h-screen overflow-hidden">
     
     <div class="header w-2/5 p-4 flex flex-col space-y-10 justify-center">

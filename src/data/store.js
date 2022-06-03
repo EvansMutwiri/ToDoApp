@@ -17,23 +17,29 @@ export default createStore({
         ADD_NEW(state, todo) {
             state.toDoList.length >= 1 ? todo.id = state.toDoList[state.toDoList.length - 1].id + 1 : todo.id = 1;
             state.toDoList.push({...state.toDoList, ...todo});
-            // state.toDoListUncomplete.push({...state.toDoList, ...todo});
-
-            todo.completed ? state.toDoListComplete.push({...state.toDoList, ...todo}) : state.toDoListUncomplete.push({...state.toDoList, ...todo});
+            state.toDoListUncomplete.push({...state.toDoList, ...todo});
         },
         DELETE_TASK(state, id) {
             let tasks = state.toDoList;
             let index = tasks.findIndex((task) => task.id === id);
             
-            tasks.splice(index, 1);
+            if(index !== -1) {
+                tasks.splice(index, 1);
+            }
             state.toDoList = tasks;
         },
         COMPLETE_TASK(state, todo) {
             
             todo.completed = !todo.completed;
             todo.date_complete = new Date().getDate() + "-" + new Date().getMonth() + "-" + new Date().getFullYear();
-            state.toDoListComplete.push(todo);
-            todo.completed ? state.toDoListUncomplete.splice(state.toDoListUncomplete.indexOf(todo), 1) : state.toDoListUncomplete.push(todo);
+            
+            if (todo.completed) {
+                state.toDoListComplete.push(todo);
+                state.toDoListUncomplete.splice(state.toDoListUncomplete.indexOf(todo), 1);
+            } else {
+                state.toDoListUncomplete.push(todo);
+                state.toDoListComplete.splice(state.toDoListComplete.indexOf(todo), 1);
+            }
         },
         SET_POSTS(state, data) {
             state.toDoList = data;
@@ -50,14 +56,17 @@ export default createStore({
             commit("COMPLETE_TASK", id);
         },
         initPosts({commit}) {
-            axios.get("https://tychak.github.io/").then((response) => {
+            if(this.state.toDoList.length === 0) {
+                axios.get("https://tychak.github.io/").then((response) => {
                 // console.log('response', response.data);
                 let data = response.data;
                 data.forEach((item) => {
                     item.id = parseInt(item.id);
+                    item.completed = false;
                 });
                 commit("SET_POSTS", data);
             });
+            }
         }
     },
 });
