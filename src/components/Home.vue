@@ -21,7 +21,7 @@
             <input type="date" class="w-full p-2 border-2 border-gray-400" placeholder="Task deadline..."
                 v-model.lazy="newTask.deadline">
 
-            <button class="w-full p-2 border-2 border-gray-400">Add task</button>
+            <button class="w-full p-2 border-2 border-gray-400">{{this.editing ? 'Update' : 'Add'}}</button>
 
         </form>
         <div>
@@ -98,7 +98,8 @@ export default {
             completed: false,
             completed_date: 'ongoing'
         },
-        editedTask: null
+        editedTask: null,
+        editing: false,
     }),
     methods: {
         addNewTask() {
@@ -121,7 +122,7 @@ export default {
                 this.$store.dispatch('editTask', this.editedTask);
                 this.editedTask = null;
             }
-            this.clearFields()
+            this.clearFields();
         },
         clearFields(){
             this.newTask = {
@@ -132,7 +133,8 @@ export default {
                 deadline: '',
                 completed: false,
                 completed_date: 'ongoing'
-            }
+            },
+            this.editing = false;
         },
         deleteTask(task) {
             this.$store.dispatch('deleteTask', task);
@@ -147,6 +149,7 @@ export default {
         },
         setTask(task) {
             // this.$store.dispatch('setTask', { id, task });
+            this.editing = true;
             this.newTask = task;
             this.editedTask = task;
         }
