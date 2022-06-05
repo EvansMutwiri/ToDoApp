@@ -43,6 +43,14 @@ export default createStore({
         },
         SET_POSTS(state, data) {
             state.toDoList = data;
+        },
+        EDIT_TASK(state, todo) {
+            let tasks = state.toDoList;
+            let index = tasks.findIndex((task) => task.id === todo.id);
+            if(index !== -1) {
+                tasks[index] = todo;
+            }
+            state.toDoList = tasks;
         }
     },
     actions: {
@@ -67,6 +75,9 @@ export default createStore({
                 commit("SET_POSTS", data);
             });
             }
+        },
+        editTask({commit}, todo) {
+            commit("EDIT_TASK", todo);
         }
     },
 });

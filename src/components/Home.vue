@@ -15,11 +15,11 @@
 
         <form v-on:submit.prevent="addNewTask()" class="space-y-2">
             <input type="text" class="w-full p-2 border-2 border-gray-400" placeholder="Task title..."
-                v-model="newTask.title">
+                v-model.lazy="newTask.title">
             <input type="text" class="w-full p-2 border-2 border-gray-400" placeholder="Task description..."
-                v-model="newTask.description">
+                v-model.lazy="newTask.description">
             <input type="date" class="w-full p-2 border-2 border-gray-400" placeholder="Task deadline..."
-                v-model="newTask.deadline">
+                v-model.lazy="newTask.deadline">
 
             <button class="w-full p-2 border-2 border-gray-400">Add task</button>
 
@@ -54,7 +54,7 @@
 
                         <td class="p-4">
                             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                @click="completeTask(task)">
+                                @click="setTask(task)">
                                 Edit
                             </button>
                         </td>
@@ -83,6 +83,11 @@ export default {
             tasks: 'toDoList'
         })
     },
+    watch: {
+        updatedTask: function (newTask) {
+            this.updateTask(newTask);
+        }
+    },
     data: () => ({
         newTask: {
             title: '',
@@ -92,13 +97,33 @@ export default {
             deadline: '',
             completed: false,
             completed_date: 'ongoing'
-        }
+        },
+        editedTask: null
     }),
     methods: {
         addNewTask() {
             // console.log(this.newTask);
             // dispatch the action to add the new task
+
+            if (this.editedTask === null) {
+
             this.$store.dispatch('addNewTask', this.newTask);
+            this.newTask = {
+                title: '',
+                description: '',
+                due_date: '',
+                date_added: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+                deadline: '',
+                completed: false,
+                completed_date: 'ongoing'
+            }
+            } else {
+                this.$store.dispatch('editTask', this.editedTask);
+                this.editedTask = null;
+            }
+            this.clearFields()
+        },
+        clearFields(){
             this.newTask = {
                 title: '',
                 description: '',
@@ -119,7 +144,13 @@ export default {
         },
         getPosts() {
             this.$store.dispatch('initPosts');
+        },
+        setTask(task) {
+            // this.$store.dispatch('setTask', { id, task });
+            this.newTask = task;
+            this.editedTask = task;
         }
+        
     },
     created() {
         this.getPosts();
