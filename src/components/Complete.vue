@@ -1,12 +1,50 @@
 <template>
-    <div>
-        <h1>This is the done items page</h1>
-        <!-- {{ $store.state.toDoListComplete }} -->
-        <ul>
-            <li v-for="task in tasks" :key="task.id">
-                {{ task.title }}
-            </li>
-        </ul>
+    <div class="w-full text-center">
+        <div class="home mt-10 text-4xl py-6 font-bold">
+            Tasks: <span class="text-gray-400">completed</span>
+        </div>
+        <div class="overflow-x-auto border-x border-t">
+            <table class="table-auto w-full">
+               <thead class="border-b">
+                  <tr class="bg-gray-100">
+                     <th class="text-center p-4 border font-bold">
+                        ID
+                     </th>
+                     <th class="text-center p-4 border font-bold">
+                        Title
+                     </th>
+                     <th class="text-center p-4 border font-bold">
+                        Description
+                     </th>
+                     <th class="text-center p-4 border font-bold">
+                        Deadline
+                     </th>
+                     <th class="text-center p-4 border font-bold">
+                        Date added
+                     </th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr class="border-b hover:bg-gray-50" v-for="task in tasks" :key="task.id">
+                     <td class="p-4 border">
+                        {{ task.id }}
+                     </td>
+                     <td class="p-4 border">
+                        {{ task.title }}
+                     </td>
+                     <td class="p-4 border">
+                        {{ task.description }}
+                     </td>
+                     <td class="p-4 border">
+                        {{ task.deadline }}
+                     </td>
+                        <td class="p-4 border">
+                            {{ task.date_added }}
+                        </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
     </div>
 </template>
 

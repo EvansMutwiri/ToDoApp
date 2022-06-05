@@ -4,7 +4,7 @@ import axios from "axios";
 export default createStore({
   state: {
     // data
-    title: "to do ",
+    title: "todo",
     toDoList: [],
     toDoListComplete: [],
     toDoListUncomplete: [],

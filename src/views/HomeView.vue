@@ -1,17 +1,11 @@
 <template>
-  <div class="home h-screen -mt-10 flex items-center">
+  <div class="home flex items-center h-screen px-10">
     <Home />
   </div>
 </template>
 
 <style>
-/* @media (min-width: 1024px) {
-  .home {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-} */
+
 </style>
 
 <script>
