@@ -12,54 +12,58 @@
             <input type="date" class="w-full p-2 border border-gray-400" placeholder="Task deadline..."
                 v-model.lazy="newTask.deadline">
 
-            <button class="w-full p-2 border border-gray-400 bg-slate-50 hover:bg-slate-200 shadow-sm">{{ this.editing ? 'Update' :
-                    'Add'
-            }}</button>
+            <button class="w-full p-2 border border-gray-400 bg-slate-50 hover:bg-slate-200 shadow-sm">
+                {{ this.editing ?
+                'Update' :
+                'Add'
+                }}</button>
 
         </form>
-        <button v-else v-on:click="input = true" class="w-full p-2 border border-gray-400 bg-slate-50 hover:bg-slate-200 shadow-sm">
+        <button v-else v-on:click="input = true"
+            class="w-full p-2 border border-gray-400 bg-slate-50 hover:bg-slate-200 shadow-sm">
             Add Task
         </button>
-        <div class="mt-10">
-            <table v-if="tasks.length" v-show="!input" class="table-auto">
+        <div class="sm:mt-10">
+            <table v-if="tasks.length" v-show="!input" class="table-auto w-full ">
                 <thead>
                     <tr>
-                        <th class="p-4">Done</th>
-                        <th class="p-4">ID</th>
-                        <th class="p-4">Title</th>
-                        <th class="p-4">Created At</th>
-                        <th class="p-4">Completed</th>
-                        <th class="p-4">Deadline</th>
+                        <th class="sm:p-4">Done</th>
+                        <th class="sm:p-4">ID</th>
+                        <th class="sm:p-4">Title</th>
+                        <th class="sm:p-4">Created At</th>
+                        <th class="sm:p-4">Completed</th>
+                        <th class="sm:p-4">Deadline</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="task in tasks" :key="task.id" v-bind:class="{ completed: task.completed }"
                         class="border hover:text-gray-400">
-                        <td class="p-4 cursor-pointer">
+                        <td class="sm:p-4 cursor-pointer">
                             <input class="cursor-pointer bg-red-100 border-red-300 text-red-500 focus:ring-red-200"
                                 type="checkbox" v-model="task.completed" @click="completeTask(task)">
                         </td>
-                        <td class="p-4">{{ task.id }}</td>
-                        <td class="p-4">{{ task.title }}</td>
-                        <td class="p-4">{{ task.date_added }}</td>
-                        <td class="p-4">{{ task.completed === true ? new Date().getFullYear() + '-' + (new
-                                Date().getMonth() + 1) + '-' + new Date().getDate() : 'ongoing'
-                        }}</td>
+                        <td class="sm:p-4">{{ task.id }}</td>
+                        <td class="sm:p-4">{{ task.title }}</td>
+                        <td class="sm:p-4">{{ task.date_added }}</td>
+                        <td class="sm:p-4">{{ task.completed === true ? new Date().getFullYear() + '-' + (new
+                            Date().getMonth() + 1) + '-' + new Date().getDate() : 'ongoing'
+                            }}</td>
 
-                        <td class="p-4 text-red-400">{{ task.deadline }}</td>
+                        <td class="sm:p-4 text-red-400">{{ task.deadline }}</td>
 
-                        <td class="p-4 flex justify-between space-x-2">
-                            <button class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-sm"
+                        <td class="sm:p-4 flex justify-between space-x-2">
+                            <button
+                                class="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded shadow-sm"
                                 @click="setTask(task)">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                             </button>
-                            <button class="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow-sm"
+                            <button class="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded shadow-sm"
                                 @click="deleteTask(task.id)">
-                                Delete
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </button>
                         </td>
                     </tr>
@@ -69,7 +73,16 @@
                 No tasks found...
             </div>
         </div>
+        <div v-if="deleted" class="p-4 mt-4 text-sm text-red-500 bg-red-100 rounded dark:bg-red-200 dark:text-red-800"
+            role="alert">
+            <span class="font-medium">Delete Successful!</span>
+        </div>
+        <div v-if="updated" class="p-4 mt-4 text-sm text-green-500 bg-green-100 rounded dark:bg-green-200 dark:text-green-800"
+            role="alert">
+            <span class="font-medium">Task updated!</span>
+        </div>
     </div>
+
 </template>
 
 <script>
@@ -101,7 +114,9 @@ export default {
         },
         editedTask: null,
         editing: false,
-        input: false
+        input: false,
+        deleted: false,
+        updated: false
     }),
     methods: {
         addNewTask() {
@@ -116,6 +131,8 @@ export default {
                 }
 
                 this.$store.dispatch('addNewTask', this.newTask);
+
+                // set text input to false and reset the form
                 this.input = false;
                 this.newTask = {
                     title: '',
@@ -128,8 +145,16 @@ export default {
                 }
             } else {
                 this.$store.dispatch('editTask', this.editedTask);
+
+                // set text input to false and reset the form
                 this.editedTask = null;
                 this.input = false;
+
+                // track if the task was updated
+                this.updated = true;
+                setTimeout(() => {
+                    this.updated = false;
+                }, 2000);
             }
             this.clearFields();
         },
@@ -150,6 +175,12 @@ export default {
             if (conf === false) return;
 
             this.$store.dispatch('deleteTask', task);
+
+            this.deleted = true;
+
+            setTimeout(() => {
+                this.deleted = false;
+            }, 2000);
             // console.log('delete', task.id);
         },
         completeTask(task) {

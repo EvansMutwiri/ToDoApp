@@ -1,7 +1,7 @@
 <template>
     <div class="undone w-full text-center">
         <div class="home text-4xl py-6 font-bold">
-            Tasks: <span class="text-gray-400">in</span> <span class="text-gray-200"> progress</span>
+            Tasks: <span class="text-gray-400">in progress</span>
         </div>
 
         <div class="overflow-x-auto border-x border-t">
