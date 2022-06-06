@@ -1,5 +1,5 @@
 <template>
-  <div class="complete">
+  <div class="complete flex items-center h-screen px-10">
     <Complete />
   </div>
 </template>

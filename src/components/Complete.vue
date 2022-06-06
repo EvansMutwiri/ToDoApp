@@ -1,6 +1,6 @@
 <template>
     <div class="w-full text-center">
-        <div class="home mt-10 text-4xl py-6 font-bold">
+        <div class="home text-4xl py-6 font-bold">
             Tasks: <span class="text-gray-400">completed</span>
         </div>
         <div class="overflow-x-auto border-x border-t">
@@ -35,7 +35,7 @@
                      <td class="p-4 border">
                         {{ task.description }}
                      </td>
-                     <td class="p-4 border">
+                     <td class="p-4 border text-red-400">
                         {{ task.deadline }}
                      </td>
                         <td class="p-4 border">

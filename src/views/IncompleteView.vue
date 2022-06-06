@@ -1,5 +1,5 @@
 <template>
-  <div class="incomplete">
+  <div class="incomplete flex items-center h-screen px-10">
     <Incomplete />
   </div>
 </template>

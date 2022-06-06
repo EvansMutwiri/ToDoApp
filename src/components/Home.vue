@@ -1,6 +1,6 @@
 <template>
     <div class="w-full text-center">
-        <div class="home mt-10 text-4xl py-6 font-bold">
+        <div class="home text-4xl py-6 font-bold">
             Home: <span class="text-gray-400">all</span> <span class="text-gray-400"> tasks</span>
         </div>
 
@@ -12,12 +12,12 @@
             <input type="date" class="w-full p-2 border border-gray-400" placeholder="Task deadline..."
                 v-model.lazy="newTask.deadline">
 
-            <button class="w-full p-2 border border-gray-400 bg-slate-50 hover:bg-slate-200">{{ this.editing ? 'Update' :
+            <button class="w-full p-2 border border-gray-400 bg-slate-50 hover:bg-slate-200 shadow-sm">{{ this.editing ? 'Update' :
                     'Add'
             }}</button>
 
         </form>
-        <button v-else v-on:click="input = true" class="w-full p-2 border border-gray-400">
+        <button v-else v-on:click="input = true" class="w-full p-2 border border-gray-400 bg-slate-50 hover:bg-slate-200 shadow-sm">
             Add Task
         </button>
         <div class="mt-10">
@@ -46,10 +46,10 @@
                                 Date().getMonth() + 1) + '-' + new Date().getDate() : 'ongoing'
                         }}</td>
 
-                        <td class="p-4">{{ task.deadline }}</td>
+                        <td class="p-4 text-red-400">{{ task.deadline }}</td>
 
-                        <td class="p-4">
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        <td class="p-4 flex justify-between space-x-2">
+                            <button class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-sm"
                                 @click="setTask(task)">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor" stroke-width="2">
@@ -57,9 +57,7 @@
                                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                 </svg>
                             </button>
-                        </td>
-                        <td class="p-4">
-                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                            <button class="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow-sm"
                                 @click="deleteTask(task.id)">
                                 Delete
                             </button>
