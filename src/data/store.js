@@ -2,16 +2,19 @@ import { createStore } from "vuex";
 import axios from "axios";
 
 export default createStore({
+  strict: true,
   state: {
     // data
-    title: "todo",
+    title: "Todo",
     toDoList: [],
     toDoListComplete: [],
-    toDoListUncomplete: [],
+    toDoListIncomplete: [],
   },
   getters: {
     getTodos: (state) => state.toDoList,
     getToDo: (state) => state.updatedToDo,
+    getToDoComplete: (state) => state.toDoList.filter((todo) => todo.completed),
+    getToDoIncomplete: (state) => state.toDoList.filter((todo) => !todo.completed),
   },
   mutations: {
     ADD_NEW(state, todo) {
@@ -22,9 +25,6 @@ export default createStore({
 
       // add new todo to todolist
       state.toDoList.push({ ...state.toDoList, ...todo });
-
-      // add new todo to todolistincomplete
-      state.toDoListUncomplete.push({ ...state.toDoList, ...todo });
     },
     DELETE_TASK(state, id) {
       let tasks = state.toDoList;
@@ -40,19 +40,19 @@ export default createStore({
       todo.completed = !todo.completed;
       todo.date_complete =
         new Date().getDate() +
-        "-" +
+        "-0" +
         new Date().getMonth() +
         "-" +
         new Date().getFullYear();
 
       if (todo.completed) {
         state.toDoListComplete.push(todo);
-        state.toDoListUncomplete.splice(
-          state.toDoListUncomplete.indexOf(todo),
+        state.toDoListIncomplete.splice(
+          state.toDoListIncomplete.indexOf(todo),
           1
         );
       } else {
-        state.toDoListUncomplete.push(todo);
+        state.toDoListIncomplete.push(todo);
         state.toDoListComplete.splice(state.toDoListComplete.indexOf(todo), 1);
       }
     },

@@ -9,8 +9,13 @@
                 v-model.lazy="newTask.title">
             <input type="text" class="w-full p-2 border border-gray-400" placeholder="Task description..."
                 v-model.lazy="newTask.description">
-            <input type="date" class="w-full p-2 border border-gray-400" placeholder="Task deadline..."
+            <div class="text-left sm:flex text-gray-400 border border-gray-400 bg-white px-2 items-center">
+                Deadline:
+            <input type="date" class="w-full p-2"
                 v-model.lazy="newTask.deadline">
+            </div>
+
+            <!-- button to add new task or update task -->
 
             <button class="w-full p-2 border border-gray-400 bg-slate-50 hover:bg-slate-200 shadow-sm">
                 {{ this.editing ?
@@ -45,7 +50,7 @@
                         <td class="sm:p-4">{{ task.id }}</td>
                         <td class="sm:p-4">{{ task.title }}</td>
                         <td class="sm:p-4">{{ task.date_added }}</td>
-                        <td class="sm:p-4">{{ task.completed === true ? new Date().getFullYear() + '-' + (new
+                        <td class="sm:p-4">{{ task.completed === true ? new Date().getFullYear() + '-0' + (new
                             Date().getMonth() + 1) + '-' + new Date().getDate() : 'ongoing'
                             }}</td>
 
@@ -87,7 +92,7 @@
 
 <script>
 import { onMounted } from '@vue/runtime-core';
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
     computed: {
         // tasks() {
@@ -107,7 +112,7 @@ export default {
             title: '',
             description: '',
             due_date: '',
-            date_added: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+            date_added: new Date().getFullYear() + '-0' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
             deadline: '',
             completed: false,
             completed_date: 'ongoing'
@@ -119,14 +124,19 @@ export default {
         updated: false
     }),
     methods: {
+        ...mapActions([
+            'completeTask',
+        ]),
+        
         addNewTask() {
-            // console.log(this.newTask);
-            // dispatch the action to add the new task
 
             if (this.editedTask === null) {
 
                 if (this.newTask.title === '' || this.newTask.description === '' || this.newTask.deadline === '') {
                     alert('Please fill in all the fields');
+                    return;
+                } else if (this.newTask.deadline < new Date().getFullYear() + '-0' + (new Date().getMonth() + 1) + '-' + new Date().getDate()) {
+                    alert(this.newTask.deadline);
                     return;
                 }
 
@@ -138,7 +148,7 @@ export default {
                     title: '',
                     description: '',
                     due_date: '',
-                    date_added: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+                    date_added: new Date().getFullYear() + '-0' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
                     deadline: '',
                     completed: false,
                     completed_date: 'ongoing',
@@ -163,7 +173,7 @@ export default {
                 title: '',
                 description: '',
                 due_date: '',
-                date_added: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+                date_added: new Date().getFullYear() + '-0' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
                 deadline: '',
                 completed: false,
                 completed_date: 'ongoing'
@@ -183,10 +193,7 @@ export default {
             }, 2000);
             // console.log('delete', task.id);
         },
-        completeTask(task) {
-            this.$store.dispatch('completeTask', task);
-            // console.log('complete', task.id);
-        },
+        
         getPosts() {
             this.$store.dispatch('initPosts');
         },
@@ -209,6 +216,6 @@ export default {
 .completed {
     color: #ffffff;
     /* text-decoration: line-through; */
-    background-color: #86EFAC;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 </style>
