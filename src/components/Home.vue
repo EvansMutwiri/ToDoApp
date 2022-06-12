@@ -136,7 +136,7 @@ export default {
                     alert('Please fill in all the fields');
                     return;
                 } else if (this.newTask.deadline < new Date().getFullYear() + '-0' + (new Date().getMonth() + 1) + '-' + new Date().getDate()) {
-                    alert(this.newTask.deadline);
+                    alert('Please make sure the deadline is in the future!');
                     return;
                 }
 
