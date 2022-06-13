@@ -1,5 +1,5 @@
 <template>
-  <div class="incomplete flex items-center h-screen px-10">
+  <div class="incomplete px-10">
     <Incomplete />
   </div>
 </template>
@@ -18,8 +18,8 @@
 import Incomplete from '../components/Incomplete.vue';
 export default {
   props: ['todoUndone'],
-    setup() {
-    },
-    components: { Incomplete }
+  setup() {
+  },
+  components: { Incomplete }
 }
 </script>

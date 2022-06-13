@@ -14,7 +14,8 @@ export default createStore({
     getTodos: (state) => state.toDoList,
     getToDo: (state) => state.updatedToDo,
     getToDoComplete: (state) => state.toDoList.filter((todo) => todo.completed),
-    getToDoIncomplete: (state) => state.toDoList.filter((todo) => !todo.completed),
+    getToDoIncomplete: (state) =>
+      state.toDoList.filter((todo) => !todo.completed),
   },
   mutations: {
     ADD_NEW(state, todo) {

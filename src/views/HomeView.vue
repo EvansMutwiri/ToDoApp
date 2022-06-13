@@ -1,5 +1,5 @@
 <template>
-  <div class="home flex items-center h-screen px-10">
+  <div class="home px-10">
     <Home />
   </div>
 </template>

@@ -1,10 +1,10 @@
 <template>
-    <div class="undone w-full text-center">
-        <div class="home text-4xl py-6 font-bold">
-            Tasks: <span class="text-gray-400">in progress</span>
-        </div>
+   <div class="undone w-full text-center">
+      <div class="home text-4xl py-6 font-bold">
+         Tasks: <span class="text-gray-400">in progress</span>
+      </div>
 
-        <!-- <div class="overflow-x-auto border-x border-t">
+      <!-- <div class="overflow-x-auto border-x border-t">
             <table class="table-auto w-full">
                <thead class="border-b">
                   <tr class="bg-gray-100">
@@ -47,46 +47,48 @@
             </table>
          </div> -->
 
-         <ul v-if="tasks.length" class="cards">
-            <li v-for="task in tasks" :key="task.id">
-                <div>
-                     <h3>{{ task.title }}</h3>
-                     <p>{{ task.description }}</p>
-                     <p>Deadline: {{ task.deadline }}</p>
-                     <p>Added: {{ task.date_added }}</p>
-                </div>
-            </li>
-         </ul>
-    </div>
+      <ul v-if="tasks.length" class="cards">
+         <li v-for="task in tasks" :key="task.id">
+            <div>
+               <h3>{{ task.title }}</h3>
+               <p>{{ task.description }}</p>
+               <p>Deadline: {{ task.deadline }}</p>
+               <p>Added: {{ task.date_added }}</p>
+            </div>
+         </li>
+      </ul>
+   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex'
 export default {
-    computed: {
-        // tasks() {
-        //     return this.$store.state.toDoListIncomplete
-        // }
+   computed: {
+      // tasks() {
+      //     return this.$store.state.toDoListIncomplete
+      // }
       //   ...mapState({
       //       tasks: 'toDoListIncomplete'
       //   })
       ...mapGetters({
-        tasks: 'getToDoIncomplete'
+         tasks: 'getToDoIncomplete'
       })
-    }
+   }
 
 }
 </script>
 
 <style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css?family=Shadows+Into+Light');
-.cards{
+
+.cards {
    list-style: none;
    font-family: 'Shadows Into Light', cursive;
-   li{
+
+   li {
       float: left;
       margin: 1em;
-      
+
       div {
          width: 200px;
          height: 200px;
@@ -96,17 +98,19 @@ export default {
          transition-duration: 0.5s;
          z-index: 1;
 
-         &:hover, &:focus {
+         &:hover,
+         &:focus {
             box-shadow: 4px 4px 4px #ccc;
             z-index: 1000;
             position: inherit;
          }
 
          &:nth-child(odd) {
-            background: #cffdd5;
+            background: #cfeafd;
             transform: rotate(4deg);
 
-            &:hover, &:focus {
+            &:hover,
+            &:focus {
                background: #cffdd5;
                transform: scale(1.1);
             }
@@ -118,7 +122,8 @@ export default {
             background: #fdf5cf;
             transform: rotate(-4deg);
 
-            &:hover, &:focus {
+            &:hover,
+            &:focus {
                background: #cffdd5;
                transform: scale(1.1);
             }
