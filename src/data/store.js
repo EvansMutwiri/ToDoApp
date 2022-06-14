@@ -5,7 +5,7 @@ export default createStore({
   strict: true,
   state: {
     // data
-    title: "Todo",
+    title: "Tasks",
     toDoList: [],
     toDoListComplete: [],
     toDoListIncomplete: [],

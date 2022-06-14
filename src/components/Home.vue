@@ -7,8 +7,8 @@
         <form v-if="input" v-on:submit.prevent="addNewTask()" class="space-y-2 border sm:p-10 bg-gray-100 shadow-xl">
             <input type="text" class="w-full p-2 border border-gray-400" placeholder="Task title..."
                 v-model="newTask.title">
-            <input type="text" class="w-full p-2 border border-gray-400" placeholder="Task description..."
-                v-model.lazy="newTask.description">
+            <textarea type="text" class="w-full p-2 border border-gray-400" placeholder="Task description..."
+                v-model.lazy="newTask.description"></textarea>
             <div class="text-left sm:flex text-gray-400 border border-gray-400 bg-white px-2 items-center">
                 Deadline:
                 <input type="date" class="w-full p-2" v-model.lazy="newTask.deadline">
